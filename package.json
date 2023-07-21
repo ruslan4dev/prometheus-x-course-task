@@ -1,5 +1,6 @@
 {
-  "name": "x-course-task",
+  "name": "prometheus-x-course-task",
+  "homepage": "https://ruslan4dev.github.io/prometheus-x-course-task",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +46,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
+    "gh-pages": "^5.0.0",
     "jest": "^27.5.1"
   },
   "jest": {
