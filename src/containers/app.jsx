@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import {
   Layout,
@@ -25,7 +25,7 @@ export function App() {
       }
     >
       <BooksProvider value={books}>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/signin" element={<SignInPage />} />
@@ -38,7 +38,7 @@ export function App() {
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </BooksProvider>
     </ErrorBoundary>
   );
