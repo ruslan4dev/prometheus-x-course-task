@@ -30,9 +30,11 @@ export function Cart() {
         </div>
         <div className="text-end pe-3">
           Total price: $
-          {cart?.books
-            ?.reduce((accu, curr) => accu + curr.price * curr.count, 0)
-            .toFixed(2)}
+          <strong>
+            {cart?.books
+              ?.reduce((accu, curr) => accu + curr.price * curr.count, 0)
+              .toFixed(2)}
+          </strong>
         </div>
       </div>
     );

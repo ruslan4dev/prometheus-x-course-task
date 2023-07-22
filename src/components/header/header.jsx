@@ -55,7 +55,9 @@ export function Header() {
                 <li className="nav-item pb-2 pb-sm-0">
                   <Link className="nav-link p-0" to="/cart">
                     <img src={imageCart} width="38px" height="38px" alt="" />
-                    <span className="text-primary">{booksInCart}</span>
+                    <span className="badge rounded-pill bg-primary">
+                      {booksInCart}
+                    </span>
                   </Link>
                 </li>
                 <li className="nav-item pb-2 pb-sm-0">
