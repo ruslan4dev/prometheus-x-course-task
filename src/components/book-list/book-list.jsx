@@ -56,7 +56,8 @@ export function BookList() {
         {books
           ?.filter(
             (book) =>
-              book.title.indexOf(searchString) >= 0 &&
+              book.title.toLowerCase().indexOf(searchString.toLowerCase()) >=
+                0 &&
               book.price >= price.min &&
               book.price <= (price.max || 1000000)
           )
