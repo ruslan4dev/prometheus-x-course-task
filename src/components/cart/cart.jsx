@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import { LocalStorageService, LS_KEYS } from 'services/localStorage';
 import { BookInCart } from 'components/book-in-cart';
-import cartImage from 'images/cart.svg';
+import { useCart } from 'hooks/use-cart';
+import imageCart from 'images/cart.svg';
 
 export function Cart() {
-  const [cart, setCart] = useState(LocalStorageService.get(LS_KEYS.CART));
+  const { cart, setCart } = useCart();
 
   const handleClickPurchaseButton = () => {
     LocalStorageService.remove(LS_KEYS.CART);
-    setCart();
+    setCart({ books: [] });
   };
 
   const BlockCartList = () => {
@@ -30,8 +30,8 @@ export function Cart() {
         </div>
         <div className="text-end pe-3">
           Total price: $
-          {cart.books
-            .reduce((accu, curr) => accu + curr.price * curr.count, 0)
+          {cart?.books
+            ?.reduce((accu, curr) => accu + curr.price * curr.count, 0)
             .toFixed(2)}
         </div>
       </div>
@@ -41,10 +41,10 @@ export function Cart() {
   const BlockEmptyCart = () => {
     return (
       <div className="cart__purchase-page">
-        <img src={cartImage} alt="cart" />
+        <img src={imageCart} alt="cart" />
       </div>
     );
   };
 
-  return <>{cart ? <BlockCartList /> : <BlockEmptyCart />}</>;
+  return <>{cart.books.length > 0 ? <BlockCartList /> : <BlockEmptyCart />}</>;
 }

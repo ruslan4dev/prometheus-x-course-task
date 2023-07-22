@@ -12,7 +12,7 @@ export function BookInCart({ book }) {
             Items: {book.count}
         </div>
         <div className="col-5 p-1 pe-3 text-end">
-            ${book.count * book.price}
+            ${(book.count * book.price).toFixed(2)}
         </div>
     </div>
   );

@@ -19,10 +19,10 @@ export function BookList() {
   return (
     <div className="container">
       <div className="row mb-4">
-        <div className="col-sm-4 d-flex justify-content-between">
+        <div className="col-sm-6 col-lg-4 d-flex justify-content-between mb-2">
           <input
             id="search_book"
-            className="form-control d-inline-block"
+            className="form-control d-inline-block pe-5"
             type="text"
             placeholder="Search book by book name"
             value={searchString}
@@ -32,7 +32,7 @@ export function BookList() {
             <img src={searchIcon} alt="" />
           </button>
         </div>
-        <div className="col-sm-2 text-right">
+        <div className="col-sm-4 col-lg-2 text-right">
           <select
             className="form-select"
             value={JSON.stringify(price)}
