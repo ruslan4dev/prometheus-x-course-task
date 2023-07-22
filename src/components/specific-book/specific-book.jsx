@@ -6,22 +6,15 @@ import imageNotFound from 'images/imageNotFound.png';
 
 export function SpecificBook() {
   const { bookID } = useParams();
-  const [count, setCount] = useState(1);
   const books = useBooks();
   const book = books?.find((book) => book.id === Number(bookID));
-  const [totalPrice, setTotalPrice] = useState(book?.price || 0);
-  const cart = LocalStorageService.get(LS_KEYS.CART) || { books: [] };
 
-  useEffect(() => {}, [count, book]);
+  const [count, setCount] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(book?.price || 0);
 
   const handleInputChange = (e) => {
-    const currentCount = e.target.value;
-    if (currentCount === '') setCount('');
-    else if (isNaN(currentCount)) setCount(1);
-    else if (currentCount < 1) setCount(1);
-    else if (currentCount > 42) setCount(42);
-    else setCount(currentCount);
-    setTotalPrice((book?.price * (count || 1)).toFixed(2));
+    const currentCount = validateCount(e.target.value);
+    setCount(currentCount);
   };
 
   const handleInputBlur = (e) => {
@@ -30,6 +23,7 @@ export function SpecificBook() {
   };
 
   const handleClickAddToCart = () => {
+    const cart = LocalStorageService.get(LS_KEYS.CART) || { books: [] };
     cart.books = cart.books.filter((item) => item.id !== book.id);
     cart.books.push(
       ...[
@@ -43,6 +37,17 @@ export function SpecificBook() {
     );
     LocalStorageService.set(LS_KEYS.CART, cart);
   };
+
+  const validateCount = (value) => {
+    if (value === '') return '';
+    else if (isNaN(value) || value < 1) return 1;
+    else if (value > 42) return 42;
+    else return value;
+  };
+
+  useEffect(() => {
+    setTotalPrice((book?.price * (count || 1)).toFixed(2));
+  }, [count, book?.price]);
 
   return (
     <div className="container">

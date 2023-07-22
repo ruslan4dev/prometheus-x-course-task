@@ -6,7 +6,7 @@ export function Layout() {
   return (
     <>
       <Header />
-      <main>
+      <main className="wrapper">
         <Outlet />
       </main>
       <Footer />

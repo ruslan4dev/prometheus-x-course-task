@@ -8,14 +8,14 @@ export function Header() {
   const navigate = useNavigate();
   const username = LocalStorageService.get(LS_KEYS.USERNAME);
 
-  useEffect(() => {
-    if (!username) navigate('/signin');
-  }, [username, navigate]);
-
   const handleLogOutClick = () => {
     LocalStorageService.remove(LS_KEYS.USERNAME);
     navigate('/signin');
   };
+
+  useEffect(() => {
+    if (!username) navigate('/signin');
+  }, [username, navigate]);
 
   return (
     <header>
