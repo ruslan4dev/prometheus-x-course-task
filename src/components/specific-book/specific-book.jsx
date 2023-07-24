@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBooks } from 'hooks/use-books';
 import { useCart } from 'hooks/use-cart';
-import { LocalStorageService, LS_KEYS } from 'services/localStorage';
 import imageNotFound from 'images/imageNotFound.png';
 
 export function SpecificBook() {
@@ -10,7 +9,7 @@ export function SpecificBook() {
   const books = useBooks();
   const book = books?.find((book) => book.id === Number(bookID));
 
-  const { setCart } = useCart();
+  const { cart, setCart } = useCart();
 
   const [count, setCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(book?.price || 0);
@@ -26,9 +25,9 @@ export function SpecificBook() {
   };
 
   const handleClickAddToCart = () => {
-    const cart = LocalStorageService.get(LS_KEYS.CART) || { books: [] };
-    cart.books = cart.books.filter((item) => item.id !== book.id);
-    cart.books.push(
+    const order = { books: [] };
+    order.books = cart.books.filter((item) => item.id !== book.id);
+    order.books.push(
       ...[
         {
           id: book?.id,
@@ -38,8 +37,7 @@ export function SpecificBook() {
         },
       ]
     );
-    LocalStorageService.set(LS_KEYS.CART, cart);
-    setCart(cart);
+    setCart(order);
   };
 
   const validateCount = (value) => {

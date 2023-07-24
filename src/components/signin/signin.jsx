@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LocalStorageService, LS_KEYS } from 'services/localStorage';
+import { useUser } from 'hooks/use-user';
 import avatar from 'images/avatar.png';
 
 export function SignIn() {
   const navigate = useNavigate();
+  const { user, setUser } = useUser();
   const [disabled, setDisabled] = useState(true);
-  const [userName, setUserName] = useState(
-    LocalStorageService.get(LS_KEYS.USERNAME) || []
-  );
+  const [userName, setUserName] = useState(user || '');
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
@@ -25,7 +24,7 @@ export function SignIn() {
 
   const handleButtonClick = (e) => {
     e.preventDefault();
-    LocalStorageService.set(LS_KEYS.USERNAME, userName);
+    setUser(userName);
     navigate('/book-list');
   };
 

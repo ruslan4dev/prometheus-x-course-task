@@ -1,4 +1,3 @@
-import { LocalStorageService, LS_KEYS } from 'services/localStorage';
 import { BookInCart } from 'components/book-in-cart';
 import { useCart } from 'hooks/use-cart';
 import imageCart from 'images/cart.svg';
@@ -7,7 +6,6 @@ export function Cart() {
   const { cart, setCart } = useCart();
 
   const handleClickPurchaseButton = () => {
-    LocalStorageService.remove(LS_KEYS.CART);
     setCart({ books: [] });
   };
 

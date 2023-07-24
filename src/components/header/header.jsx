@@ -1,26 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LocalStorageService, LS_KEYS } from 'services/localStorage';
 import { useCart } from 'hooks/use-cart';
+import { useUser } from 'hooks/use-user';
 import imageCart from 'images/cart.svg';
 import imageAvatar from 'images/avatar.png';
 
 export function Header() {
   const navigate = useNavigate();
+  const { user, setUser } = useUser();
   const { cart } = useCart();
-  const [booksInCart, setBooksInCart] = useState(
-    cart?.books?.reduce((accu, curr) => accu + Number(curr.count), 0) || ''
-  );
-  const username = LocalStorageService.get(LS_KEYS.USERNAME);
+  const [booksInCart, setBooksInCart] = useState();
 
-  const handleLogOutClick = () => {
-    LocalStorageService.remove(LS_KEYS.USERNAME);
-    navigate('/signin');
-  };
+  const handleLogOutClick = () => setUser();
 
   useEffect(() => {
-    if (!username) navigate('/signin');
-  }, [username, navigate]);
+    if (!user) navigate('/signin');
+  }, [user, navigate]);
 
   useEffect(() => {
     setBooksInCart(
@@ -75,7 +70,7 @@ export function Header() {
                       <img className="img-fluid" src={imageAvatar} alt="" />
                     </span>
                     <span className="user-avatar-text">
-                      {username || 'Username'}
+                      {user || 'Username'}
                     </span>
                   </Link>
                 </li>
