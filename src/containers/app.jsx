@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
-import { ErrorBoundary } from 'react-error-boundary';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import {
   Layout,
   SignInPage,
@@ -17,11 +16,17 @@ import { LocalStorageService, LS_KEYS } from 'services/localStorage';
 import './app.scss';
 
 export function App() {
-  const books = getBooks();
   const [user, setUser] = useState(LocalStorageService.get(LS_KEYS.USERNAME));
+  const navigate = useNavigate();
+
+  const books = getBooks();
   const [cart, setCart] = useState(
     LocalStorageService.get(LS_KEYS.CART) || { books: [] }
   );
+
+  useEffect(() => {
+    if (!user) navigate('/signin');
+  }, [user, navigate]);
 
   useEffect(() => {
     if (user) LocalStorageService.set(LS_KEYS.USERNAME, user);
@@ -33,34 +38,23 @@ export function App() {
   }, [cart]);
 
   return (
-    <ErrorBoundary
-      fallback={
-        <div className="block__text-error-message">
-          Something went wrong. Try to get help from support service
-          support@mysite.com
-        </div>
-      }
-    >
-      <UserProvider value={{ user, setUser }}>
-        <BooksProvider value={books}>
-          <CartProvider value={{ cart, setCart }}>
-            <HashRouter>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route path="/signin" element={<SignInPage />} />
-                  <Route path="/book-list" element={<BookListPage />} />
-                  <Route
-                    path="/specific-book/:bookID"
-                    element={<SpecificBookPage />}
-                  />
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="*" element={<NotFoundPage />} />
-                </Route>
-              </Routes>
-            </HashRouter>
-          </CartProvider>
-        </BooksProvider>
-      </UserProvider>
-    </ErrorBoundary>
+    <UserProvider value={{ user, setUser }}>
+      <BooksProvider value={books}>
+        <CartProvider value={{ cart, setCart }}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/book-list" element={<BookListPage />} />
+              <Route
+                path="/specific-book/:bookID"
+                element={<SpecificBookPage />}
+              />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </CartProvider>
+      </BooksProvider>
+    </UserProvider>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBooks } from 'hooks/use-books';
 import { useCart } from 'hooks/use-cart';
@@ -6,10 +6,9 @@ import imageNotFound from 'images/imageNotFound.png';
 
 export function SpecificBook() {
   const { bookID } = useParams();
-  const books = useBooks();
-  const book = books?.find((book) => book.id === Number(bookID));
-
   const { cart, setCart } = useCart();
+  const books = useBooks();
+  const book = books?.find((book) => Number(book.id) === Number(bookID));
 
   const [count, setCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(book?.price || 0);
@@ -17,6 +16,7 @@ export function SpecificBook() {
   const handleInputChange = (e) => {
     const currentCount = validateCount(e.target.value);
     setCount(currentCount);
+    setTotalPrice((book?.price * (currentCount || 1)).toFixed(2));
   };
 
   const handleInputBlur = (e) => {
@@ -47,10 +47,6 @@ export function SpecificBook() {
     else return value;
   };
 
-  useEffect(() => {
-    setTotalPrice((book?.price * (count || 1)).toFixed(2));
-  }, [count, book?.price]);
-
   return (
     <div className="container">
       <div className="row mb-2">
@@ -74,7 +70,7 @@ export function SpecificBook() {
               <ul className="list-unstyled">
                 <li className="mb-2">Author(s): {book?.author}</li>
                 <li className="mb-2">Book level: {book?.level}</li>
-                <li className="mb-2">Book tags: {book?.tags.join(', ')}</li>
+                <li className="mb-2">Book tags: {book?.tags?.join(', ')}</li>
               </ul>
             </div>
             <div className="col-sm-12">{book?.description}</div>
@@ -83,11 +79,7 @@ export function SpecificBook() {
         <div className="col-sm-4">
           <div className="border rounded-2 pt-2">
             <ul className="list-group list-unstyled border-none mb-4 fw-bold">
-              <li
-                className="list-group-item d-flex justify-content-between align-items-center border-0"
-                id="price"
-                value="17"
-              >
+              <li className="list-group-item d-flex justify-content-between align-items-center border-0">
                 Price, $<span>{book?.price}</span>
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center border-0">

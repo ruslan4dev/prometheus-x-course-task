@@ -1,21 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from 'hooks/use-cart';
 import { useUser } from 'hooks/use-user';
 import imageCart from 'images/cart.svg';
 import imageAvatar from 'images/avatar.png';
 
 export function Header() {
-  const navigate = useNavigate();
   const { user, setUser } = useUser();
   const { cart } = useCart();
   const [booksInCart, setBooksInCart] = useState();
 
   const handleLogOutClick = () => setUser();
-
-  useEffect(() => {
-    if (!user) navigate('/signin');
-  }, [user, navigate]);
 
   useEffect(() => {
     setBooksInCart(
