@@ -37,14 +37,13 @@ describe('Check input of books amount', () => {
 
   test('Input of books count should have the value 2 after step up', () => {
     const {input} = setup()
-    fireEvent.change(input, {target: {value: 2}})
+    fireEvent.click(screen.getByTestId('button-step-up'))
     expect(input.value).toBe("2")
   })
 
   test('Input of books count should have the value 1 after step down', () => {
     const {input} = setup()
-    input.value = "2"
-    fireEvent.change(input, {target: {value: 1}})
+    fireEvent.click(screen.getByTestId('button-step-down'))
     expect(input.value).toBe("1")
   })
 
