@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useBooks } from 'hooks/use-books';
 import { useCart } from 'hooks/use-cart';
@@ -16,12 +16,18 @@ export function SpecificBook() {
   const handleInputChange = (e) => {
     const currentCount = validateCount(e.target.value);
     setCount(currentCount);
-    setTotalPrice((book?.price * (currentCount || 1)).toFixed(2));
   };
 
   const handleInputBlur = (e) => {
     const currentCount = e.target.value;
     if (currentCount === '') setCount(1);
+  };
+
+  const handleInputStepDown = () => {
+    setCount(validateCount(count - 1));
+  };
+  const handleInputStepUp = () => {
+    setCount(validateCount(count + 1));
   };
 
   const handleClickAddToCart = () => {
@@ -46,6 +52,10 @@ export function SpecificBook() {
     else if (value > 42) return 42;
     else return value;
   };
+
+  useEffect(() => {
+    setTotalPrice((book?.price * (count || 1)).toFixed(2));
+  }, [count, book?.price]);
 
   return (
     <div className="container">
@@ -84,16 +94,58 @@ export function SpecificBook() {
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center border-0">
                 Count
-                <input
-                  id="booknumber"
-                  type="number"
-                  className="form-control"
-                  value={count}
-                  onChange={handleInputChange}
-                  onBlur={handleInputBlur}
-                  min="1"
-                  max="42"
-                />
+                <span className="block__input-book-count input-group">
+                  <input
+                    id="book-number"
+                    type="number"
+                    className="form-control"
+                    value={count}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    min="1"
+                    max="42"
+                  />
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    onClick={handleInputStepDown}
+                    data-testid="button-step-down"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-arrow-down"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    onClick={handleInputStepUp}
+                    data-testid="button-step-up"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-arrow-up"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
+                      />
+                    </svg>
+                  </button>
+                </span>
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center border-0">
                 Total price, $
