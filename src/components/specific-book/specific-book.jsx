@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useBooks } from 'hooks/use-books';
 import { useCart } from 'hooks/use-cart';
 import imageNotFound from 'images/imageNotFound.png';
+import { BsPlusLg, BsDashLg } from 'react-icons/bs';
 
 export function SpecificBook() {
   const { bookID } = useParams();
@@ -60,7 +61,7 @@ export function SpecificBook() {
   return (
     <div className="container">
       <div className="row mb-2">
-        <div className="col-sm-8">
+        <div className="col-md-8">
           <div className="row">
             <div className="col-sm-6">
               <div className="text-center pb-4">
@@ -83,10 +84,10 @@ export function SpecificBook() {
                 <li className="mb-2">Book tags: {book?.tags?.join(', ')}</li>
               </ul>
             </div>
-            <div className="col-sm-12">{book?.description}</div>
+            <div className="co-12 mb-3">{book?.description}</div>
           </div>
         </div>
-        <div className="col-sm-4">
+        <div className="col-md-4">
           <div className="border rounded-2 pt-2">
             <ul className="list-group list-unstyled border-none mb-4 fw-bold">
               <li className="list-group-item d-flex justify-content-between align-items-center border-0">
@@ -95,10 +96,18 @@ export function SpecificBook() {
               <li className="list-group-item d-flex justify-content-between align-items-center border-0">
                 Count
                 <span className="block__input-book-count input-group">
+                  <button
+                    className="btn btn-outline-secondary"
+                    type="button"
+                    onClick={handleInputStepDown}
+                    data-testid="button-step-down"
+                  >
+                    <BsDashLg size={22} />
+                  </button>
                   <input
                     id="book-number"
                     type="number"
-                    className="form-control"
+                    className="form-control text-center"
                     value={count}
                     onChange={handleInputChange}
                     onBlur={handleInputBlur}
@@ -108,38 +117,10 @@ export function SpecificBook() {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={handleInputStepDown}
-                    data-testid="button-step-down"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    className="btn btn-outline-secondary"
-                    type="button"
                     onClick={handleInputStepUp}
                     data-testid="button-step-up"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"
-                      />
-                    </svg>
+                    <BsPlusLg size={22} />
                   </button>
                 </span>
               </li>
