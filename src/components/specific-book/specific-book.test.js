@@ -3,7 +3,6 @@ import {screen, render, fireEvent} from '@testing-library/react';
 import { SpecificBook } from "components/specific-book";
 import { BooksProvider } from 'hooks/use-books';
 import { CartProvider } from 'hooks/use-cart';
-import { UserProvider } from 'hooks/use-user';
 import '@testing-library/jest-dom';
 
 const mockSetState = jest.fn();
@@ -18,13 +17,11 @@ jest.mock('react-router-dom', () => ({
 describe('Check input of books amount', () => {
   const setup = () => {
     const utils = render(
-      <UserProvider value={{ username: 'Ruslan', mockSetState }}>
-        <BooksProvider value={[{id: '1', price: '15'}]}>
-          <CartProvider value={{books: [], mockSetState}}>
-            <SpecificBook />
-          </CartProvider>
-        </BooksProvider>
-      </UserProvider>
+      <BooksProvider value={[{id: '1', price: '15'}]}>
+        <CartProvider value={{books: [], mockSetState}}>
+          <SpecificBook />
+        </CartProvider>
+      </BooksProvider>
     )
     const input = screen.getByRole('spinbutton')
     const span = screen.getByTestId('total-price')
